@@ -1,0 +1,10 @@
+name: QuadPlots
+api-version: 1.18
+version: 1.0.0
+main: net.eltown.quadplots.QuadPlots
+author: Justin
+description: QuadPlots
+load: STARTUP
+
+depend:
+  - floodgate
