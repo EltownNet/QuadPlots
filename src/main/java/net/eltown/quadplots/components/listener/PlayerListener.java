@@ -2,20 +2,14 @@ package net.eltown.quadplots.components.listener;
 
 import net.eltown.quadplots.QuadPlots;
 import net.eltown.quadplots.components.data.Plot;
-import net.eltown.quadplots.components.data.Road;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import java.util.concurrent.CompletableFuture;
 
 public record PlayerListener(QuadPlots plugin) implements Listener {
 

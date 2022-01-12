@@ -1,6 +1,6 @@
 name: QuadPlots
 api-version: 1.18
-version: 1.0.0
+version: 1.0.0.0A2
 main: net.eltown.quadplots.QuadPlots
 author: Justin
 description: QuadPlots

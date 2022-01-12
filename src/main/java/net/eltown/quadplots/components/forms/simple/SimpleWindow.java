@@ -34,7 +34,7 @@ public class SimpleWindow {
             final SimpleFormImpl.Builder form = new SimpleFormImpl.Builder();
 
             form.title(this.title);
-            form.content(this.title);
+            form.content(this.content);
 
             buttons.keySet().forEach((button) -> {
                 if (button.image.isEmpty()) form.button(button.text);

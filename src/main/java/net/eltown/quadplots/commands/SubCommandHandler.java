@@ -17,7 +17,6 @@ public class SubCommandHandler {
 
     public void init(final QuadPlots plugin) {
         commands.addAll(List.of(
-                new InvCommand(plugin),
                 new InfoCommand(plugin),
                 new WarpCommand(plugin),
                 new ClaimCommand(plugin),
