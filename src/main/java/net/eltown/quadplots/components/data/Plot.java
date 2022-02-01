@@ -68,6 +68,31 @@ public class Plot {
         return this.flags.stream().anyMatch(s -> s.startsWith("origin"));
     }
 
+    // Untested
+    public Set<Plot> getMergedPlots() {
+        final Set<Plot> plots = new HashSet<>();
+
+        this.owners.forEach(owner -> {
+            QuadPlots.getInstance().getApi().getPlots(owner).forEach((plot) -> {
+                if (plot.isMerged() && this.is(plot.getOrigin())) plots.add(plot);
+            });
+        });
+
+        return plots;
+    }
+
+    // Untested
+    public Set<Direction> getMergedDirections() {
+        final Set<Direction> directions = new HashSet<>();
+
+        if (hasMergeInDirection(Direction.NORTH)) directions.add(Direction.NORTH);
+        if (hasMergeInDirection(Direction.EAST)) directions.add(Direction.EAST);
+        if (hasMergeInDirection(Direction.SOUTH)) directions.add(Direction.SOUTH);
+        if (hasMergeInDirection(Direction.WEST)) directions.add(Direction.WEST);
+
+        return directions;
+    }
+
     public boolean isOrigin() {
         final int[] origin = this.getOriginXZ();
         return origin[0] == this.getX() && origin[1] == this.getZ();
