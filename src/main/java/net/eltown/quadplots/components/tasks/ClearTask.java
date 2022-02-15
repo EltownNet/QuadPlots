@@ -33,7 +33,7 @@ public class ClearTask {
 
                 while (this.start.getX() < this.xMax) {
                     while (this.start.getZ() < this.zMax) {
-                        while (this.start.getY() < 256) {
+                        while (this.start.getY() < this.level.getMaxHeight()) {
                             if (this.start.getY() == Plot.Settings.getHeight()) {
                                 block = Plot.Settings.getGround();
                             } else if (this.start.getY() < Plot.Settings.getHeight()) {

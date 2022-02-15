@@ -32,7 +32,7 @@ public class MergeCommand extends PlotCommand {
                         final Direction direction = Direction.getPlayerDirection(player);
 
                         switch (direction) {
-                            case NORTH:
+                            case NORTH -> {
                                 final Plot toMergeN = plot.getSide(Direction.NORTH);
                                 if (toMergeN.isOwner(player.getName())) {
                                     if (!plot.isMerged()) {
@@ -51,8 +51,8 @@ public class MergeCommand extends PlotCommand {
                                 } else {
                                     player.sendMessage(Language.get("plot.merge.sameowner"));
                                 }
-                                break;
-                            case EAST:
+                            }
+                            case EAST -> {
                                 final Plot toMergeE = plot.getSide(Direction.EAST);
                                 if (toMergeE.isOwner(player.getName())) {
                                     if (!plot.isMerged()) {
@@ -70,8 +70,8 @@ public class MergeCommand extends PlotCommand {
                                 } else {
                                     player.sendMessage(Language.get("plot.merge.sameowner"));
                                 }
-                                break;
-                            case SOUTH:
+                            }
+                            case SOUTH -> {
                                 final Plot toMergeS = plot.getSide(Direction.SOUTH);
                                 if (toMergeS.isOwner(player.getName())) {
                                     if (!plot.isMerged()) {
@@ -89,8 +89,8 @@ public class MergeCommand extends PlotCommand {
                                 } else {
                                     player.sendMessage(Language.get("plot.merge.sameowner"));
                                 }
-                                break;
-                            case WEST:
+                            }
+                            case WEST -> {
                                 final Plot toMergeW = plot.getSide(Direction.WEST);
                                 if (toMergeW.isOwner(player.getName())) {
                                     if (!plot.isMerged()) {
@@ -110,13 +110,12 @@ public class MergeCommand extends PlotCommand {
                                 } else {
                                     player.sendMessage(Language.get("plot.merge.sameowner"));
                                 }
-                                break;
+                            }
                         }
 
                     } else player.sendMessage(Language.get("no.permission"));
                 } else player.sendMessage(Language.get("plot.merge.road"));
             }
-            return;
         } else sender.sendMessage(Language.get("no.permission"));
     }
 }

@@ -1,12 +1,16 @@
 package net.eltown.quadplots.components.listener;
 
+import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.eltown.quadplots.QuadPlots;
 import net.eltown.quadplots.components.data.Plot;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -44,6 +48,42 @@ public record PlayerListener(QuadPlots plugin) implements Listener {
         }
     }
 
+    @EventHandler
+    public void on(final PlayerItemFrameChangeEvent event) {
+        if (this.plugin.getApi().isManager(event.getPlayer().getName())) return;
+
+        final Plot plot = this.plugin.getLocationAPI().getPlotByPosition(event.getItemFrame().getLocation().toVector());
+
+        if (plot != null) {
+            if (!plot.canBuild(event.getPlayer().getName())) event.setCancelled(true);
+        } else event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void on(final EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player) {
+            if (event.getEntity() instanceof Painting || event.getEntity() instanceof ItemFrame) {
+                Plot plot = this.plugin.getLocationAPI().getPlotByPosition(event.getEntity().getLocation().toVector());
+
+                if (plot != null) {
+                    if (!plot.canBuild(player.getName())) event.setCancelled(true);
+                } else event.setCancelled(true);
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void on(final HangingBreakByEntityEvent event) {
+        if (event.getRemover() instanceof Player player) {
+            Plot plot = this.plugin.getLocationAPI().getPlotByPosition(event.getEntity().getLocation().toVector());
+
+            if (plot != null) {
+                if (!plot.canBuild(player.getName())) event.setCancelled(true);
+            } else event.setCancelled(true);
+        }
+    }
+
     // Todo
     @EventHandler
     public void on(final PlayerInteractEvent event) {
@@ -52,7 +92,8 @@ public record PlayerListener(QuadPlots plugin) implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_AIR) return;
 
         Plot plot = null;
-        if (event.getClickedBlock() != null) plot = this.plugin.getLocationAPI().getPlotByPosition(event.getClickedBlock().getLocation().toVector());
+        if (event.getClickedBlock() != null)
+            plot = this.plugin.getLocationAPI().getPlotByPosition(event.getClickedBlock().getLocation().toVector());
 
         if (plot != null) {
             if (!plot.canBuild(event.getPlayer().getName())) event.setCancelled(true);
