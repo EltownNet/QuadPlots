@@ -44,7 +44,9 @@ public class SubCommandHandler {
                 new BorderCommand(plugin),
                 new MergeCommand(plugin),
                 new UnmergeCommand(plugin),
-                new AdminCommand(plugin)
+                new AdminCommand(plugin),
+                new ImportCommand(plugin),
+                new ImportIdCommand(plugin)
         ));
     }
 

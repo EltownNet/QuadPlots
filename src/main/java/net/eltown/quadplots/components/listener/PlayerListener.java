@@ -3,6 +3,7 @@ package net.eltown.quadplots.components.listener;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.eltown.quadplots.QuadPlots;
 import net.eltown.quadplots.components.data.Plot;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -62,7 +64,7 @@ public record PlayerListener(QuadPlots plugin) implements Listener {
     @EventHandler
     public void on(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player player) {
-            if (event.getEntity() instanceof Painting || event.getEntity() instanceof ItemFrame) {
+            if (event.getEntity() instanceof Painting || event.getEntity() instanceof ItemFrame || event.getEntity() instanceof ArmorStand) {
                 Plot plot = this.plugin.getLocationAPI().getPlotByPosition(event.getEntity().getLocation().toVector());
 
                 if (plot != null) {
@@ -82,6 +84,15 @@ public record PlayerListener(QuadPlots plugin) implements Listener {
                 if (!plot.canBuild(player.getName())) event.setCancelled(true);
             } else event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void on(final PlayerArmorStandManipulateEvent event) {
+        Plot plot = this.plugin.getLocationAPI().getPlotByPosition(event.getRightClicked().getLocation().toVector());
+
+        if (plot != null) {
+            if (!plot.canBuild(event.getPlayer().getName())) event.setCancelled(true);
+        } else event.setCancelled(true);
     }
 
     // Todo

@@ -20,9 +20,9 @@ public class ClearTask {
 
     public ClearTask(final Plot plot, final World level) {
         Vector position = QuadPlots.getInstance().getLocationAPI().getPositionByXZ(plot.getX(), plot.getZ());
-        this.start = new Vector(position.getX() + 1, 0, position.getZ() + 1);
-        this.xMax = (int) (position.getX() + Plot.Settings.getPlotSize() - 2);
-        this.zMax = (int) (position.getZ() + Plot.Settings.getPlotSize() - 2);
+        this.start = new Vector(position.getX() + 1, level.getMinHeight(), position.getZ() + 1);
+        this.xMax = (int) (position.getX() + Plot.Settings.getPlotSize() - 1);
+        this.zMax = (int) (position.getZ() + Plot.Settings.getPlotSize() - 1);
         this.startZ = (int) this.start.getZ();
         this.level = level;
     }
@@ -44,7 +44,7 @@ public class ClearTask {
                             this.start.add(new Vector(0, 1, 0));
                         }
                         this.start.add(new Vector(0, 0, 1));
-                        this.start.setY(0);
+                        this.start.setY(this.level.getMinHeight());
                     }
                     this.start.setZ(startZ);
                     this.start.add(new Vector(1, 0, 0));
