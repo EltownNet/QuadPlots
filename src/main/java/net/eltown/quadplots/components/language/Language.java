@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Language {
 
-    private static Map<String, String> messages = new HashMap<>();
+    private static final Map<String, String> messages = new HashMap<>();
     private static String prefix;
 
     @SneakyThrows
