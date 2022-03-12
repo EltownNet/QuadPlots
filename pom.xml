@@ -56,6 +56,13 @@
             <version>1.18-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>servercore</groupId>
+            <artifactId>servercore</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/ServerCore-1.0.0-SNAPSHOT.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>

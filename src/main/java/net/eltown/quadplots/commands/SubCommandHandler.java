@@ -3,6 +3,7 @@ package net.eltown.quadplots.commands;
 import lombok.Getter;
 import net.eltown.quadplots.QuadPlots;
 import net.eltown.quadplots.commands.subcommands.*;
+import net.eltown.quadplots.components.language.Language;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -46,11 +47,17 @@ public class SubCommandHandler {
                 new UnmergeCommand(plugin),
                 new AdminCommand(plugin),
                 new ImportCommand(plugin),
-                new ImportIdCommand(plugin)
+                new ImportIdCommand(plugin),
+                new SettingsCommand(plugin)
         ));
     }
 
     public void handle(final CommandSender sender, final String[] toHandle) {
+        if (toHandle.length == 0) {
+            sender.sendMessage(Language.get("command.not.found"));
+            return;
+        }
+
         final String cmd = toHandle[0].toLowerCase();
 
         final List<String> rawArgs = new ArrayList<>(Arrays.asList(toHandle));
@@ -69,7 +76,7 @@ public class SubCommandHandler {
             }
         });
 
-        if (!executed.get()) sender.sendMessage("Command not Found"/*Language.get("command.not.found")*/);
+        if (!executed.get()) sender.sendMessage(Language.get("command.not.found"));
     }
 
 }

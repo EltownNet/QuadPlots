@@ -33,10 +33,10 @@ public class ListCommand extends PlotCommand {
                     return;
                 }
 
-                final SimpleWindow.Builder builder = new SimpleWindow.Builder("§8» §f" + target + "'s Plots", " ");
+                final SimpleWindow.Builder builder = new SimpleWindow.Builder("§7» §8" + target + "'s Plots", " ");
 
                 plots.forEach((plot) -> {
-                    builder.addButton("§8» §8[§7" + plot.getX() + "|" + plot.getZ() + "§8] §f" + plot.getName() + "\n§7" + plot.getDescription(), (p) -> {
+                    builder.addButton("§8» §9" + plot.getName() + "\n§7" + plot.getDescription(), (p) -> {
                         p.teleport(plot.getPosition().toLocation(player.getWorld()));
                     });
                 });
@@ -45,10 +45,10 @@ public class ListCommand extends PlotCommand {
             } else {
                 final LinkedList<Plot> plots = this.getPlugin().getApi().getPlots(sender.getName());
 
-                final SimpleWindow.Builder builder = new SimpleWindow.Builder("§8» §fDeine Plots", " ");
+                final SimpleWindow.Builder builder = new SimpleWindow.Builder("§7» §8Deine Plots", " ");
 
                 plots.forEach((plot) -> {
-                    builder.addButton("§8» §8[§7" + plot.getX() + "|" + plot.getZ() + "§8] §f" + plot.getName() + "\n§7" + plot.getDescription(), (p) -> {
+                    builder.addButton("§8» §9" + plot.getName() + "\n§7" + plot.getDescription(), (p) -> {
                         p.teleport(plot.getPosition().toLocation(player.getWorld()));
                     });
                 });

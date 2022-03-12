@@ -33,10 +33,9 @@ public class WarpCommand extends PlotCommand {
                         player.sendMessage(Language.get("plot.not.generated"));
                     }
                 } catch (Exception ex) {
-                    player.sendMessage(Language.get("invalid-number"));
+                    player.sendMessage(Language.get("invalid.number"));
                 }
             } else player.sendMessage(Language.get("usage", this.getUsage()));
         }
-        return;
     }
 }

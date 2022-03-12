@@ -9,10 +9,13 @@ import net.eltown.quadplots.components.forms.modal.ModalWindow;
 import net.eltown.quadplots.components.forms.simple.SimpleWindow;
 import net.eltown.quadplots.components.language.Language;
 import net.eltown.quadplots.components.tasks.ChangeWallTask;
+import net.eltown.servercore.ServerCore;
 import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,8 +49,7 @@ public class WallCommand extends PlotCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        throw new NotImplementedException("/p wall is not implemented.");
-        /*if (sender instanceof Player player) {
+        if (sender instanceof Player player) {
             final Plot plot = this.getPlugin().getLocationAPI().getPlotByPosition(player.getLocation().toVector());
 
             if (plot != null) {
@@ -60,15 +62,18 @@ public class WallCommand extends PlotCommand {
 
                     walls.forEach(wall -> {
 
-                        final Material block = wall.getBlock();
-                        final double price = wall.getPrice();
+                        final Material block = wall.block;
+                        final double price = wall.price;
+                        final ItemStack itemStack = new ItemStack(block);
 
                         if (this.hasBlock(player, block)) {
-                            builder.addButton(block.name() + "\n§2Im Besitz", this.getImage(block), (p) -> {
-                                new ModalWindow.Builder("Plot-Wand Ändern", "Möchtest du die Wand deines Plots zu §9" + block.name() + "§r ändern?", "§aJa", "§cZurück")
+                            builder.addButton(itemStack.getI18NDisplayName() + "\n§2Im Besitz", this.getImage(block), (p) -> {
+                                new ModalWindow.Builder("Plot-Wand Ändern", "Möchtest du die Wand deines Plots zu §9" + itemStack.getI18NDisplayName() + "§r ändern?", "§aJa", "§cZurück")
                                         .onYes((p1) -> {
-                                            new ChangeWallTask(plot, block, player.getWorld()).execute();
-                                            player.sendMessage(Language.get("wall.change", block.name()));
+                                            Bukkit.getScheduler().scheduleSyncDelayedTask(this.getPlugin(), () -> {
+                                                new ChangeWallTask(plot, block, player.getWorld()).execute();
+                                                player.sendMessage(Language.get("wall.change", block.name()));
+                                            });
                                         })
                                         .onNo((p1) -> {
                                             builder.build().send(player);
@@ -76,13 +81,13 @@ public class WallCommand extends PlotCommand {
                                         .build().send(player);
                             });
                         } else {
-                            builder.addButton(block.name() + "\n§0Kaufen für §a$" + Economy.getAPI().getMoneyFormat().format(price), this.getImage(block), (p) -> {
-                                new ModalWindow.Builder("Plotwand kaufen", "Möchtest du die Plotwand §9" + block.name() + " §rfür §a$" + Economy.getAPI().getMoneyFormat().format(price) + "§r kaufen?", "§aJa", "§cZurück")
+                            builder.addButton(itemStack.getI18NDisplayName() + "\n§0Kaufen für §a$" + ServerCore.getServerCore().getMoneyFormat().format(price), this.getImage(block), (p) -> {
+                                new ModalWindow.Builder("Plotwand kaufen", "Möchtest du die Plotwand §9" + itemStack.getI18NDisplayName() + " §rfür §a$" + ServerCore.getServerCore().getMoneyFormat().format(price) + "§r kaufen?", "§aJa", "§cZurück")
                                         .onYes((p1) -> {
-                                            Economy.getAPI().getMoney(player, (money) -> {
+                                            ServerCore.getServerCore().getEconomyAPI().getMoney(player.getName(), (money) -> {
                                                 if (!(price > money)) {
-                                                    ServerCoreAPI.getGroupAPI().addPlayerPermission(player.getName(), "plot.wall." + block.name());
-                                                    Economy.getAPI().reduceMoney(player, price);
+                                                    ServerCore.getServerCore().getGroupAPI().addPlayerPermission(player.getName(), "plot.wall." + block.name());
+                                                    ServerCore.getServerCore().getEconomyAPI().reduceMoney(player.getName(), price);
                                                     player.sendMessage(Language.get("wall.bought"));
                                                 } else player.sendMessage(Language.get("not.enough.money"));
                                             });
@@ -101,16 +106,9 @@ public class WallCommand extends PlotCommand {
 
 
         }
-        return;*/
     }
 
-    @Getter
-    @AllArgsConstructor
-    private static class Wall {
-
-        private final Material block;
-        private final double price;
-
+    private record Wall(Material block, double price) {
     }
 
 }

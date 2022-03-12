@@ -18,11 +18,11 @@ public class HelpCommand extends PlotCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player player) {
-            final SimpleWindow.Builder form = new SimpleWindow.Builder("§bPlot Commands", "Hier findest du alle Befehle die du für dein Grundstück brauchst.");
+            final SimpleWindow.Builder form = new SimpleWindow.Builder("§7» §8Plot Commands", "Hier findest du alle Befehle die du für dein Grundstück brauchst.");
             this.getPlugin().getCommandHandler().getCommands().forEach((e) -> {
                 if (!e.isHidden()) {
-                    form.addButton("/p " + e.getName() + "\n§7" + e.getDescription(), (p) -> {
-                        new ModalWindow.Builder("/p " + e.getName(), e.getDescription() + "\n\nVerwendung: " + e.getUsage(), "§l§c«", "§cSchließen")
+                    form.addButton("§8» §f/p " + e.getName() + "\n§7" + e.getDescription(), (p) -> {
+                        new ModalWindow.Builder("§8» §7/p " + e.getName(), e.getDescription() + "\n\nVerwendung: §9" + e.getUsage(), "§l§c«", "§cSchließen")
                                 .onYes((pp) -> execute(sender, args))
                                 .onNo((pp) -> {})
                                 .build().send(p);

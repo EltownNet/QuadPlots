@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 
+@Deprecated
 public class SetinfoCommand extends PlotCommand {
 
     public SetinfoCommand(final QuadPlots plugin) {
@@ -19,7 +20,8 @@ public class SetinfoCommand extends PlotCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (sender instanceof Player player) {
+        sender.sendMessage("§cDieser Command wird demnächst entfernt. Bitte verwende /p settings.");
+        /*if (sender instanceof Player player) {
             final Plot plot = this.getPlugin().getLocationAPI().getPlotByPosition(player.getLocation().toVector());
             if (plot != null) {
                 if (this.getPlugin().getApi().isManager(player.getName()) || plot.isOwner(player.getName())) {
@@ -44,6 +46,6 @@ public class SetinfoCommand extends PlotCommand {
             } else player.sendMessage(Language.get("not.in.a.plot"));
         }
 
-        return;
+        return;*/
     }
 }

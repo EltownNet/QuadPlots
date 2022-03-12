@@ -22,12 +22,12 @@ public class AdminCommand extends PlotCommand {
             Plot plot = this.getPlugin().getLocationAPI().getPlotByPositionExact(player.getLocation().toVector());
 
             if (plot != null) {
-                final CustomWindow form = new CustomWindow("Plot - Adminpanel");
+                final CustomWindow form = new CustomWindow("§7» §8Plot AdminPanel");
 
                 form.form()
-                        .input("Plot Besitzer", String.join(",", plot.getOwners()), String.join(",", plot.getOwners()))
+                        .input("§8» §fPlot Besitzer", String.join(",", plot.getOwners()), String.join(",", plot.getOwners()))
                         .label("\n§l§8[§c!§8]§r§c Achtung: Eine fehlerhafte Änderung der Flags kann die Funktion eines Plots stören.")
-                        .input("Flags", String.join(",", plot.getFlags()), String.join(",", plot.getFlags()));
+                        .input("§8» §fPlot Flags", String.join(",", plot.getFlags()), String.join(",", plot.getFlags()));
 
                 form.onSubmit((p, f) -> {
                     plot.setOwners(f.getInput(0).split(","));

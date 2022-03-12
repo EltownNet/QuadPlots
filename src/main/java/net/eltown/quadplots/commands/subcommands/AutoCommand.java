@@ -5,6 +5,7 @@ import net.eltown.quadplots.commands.PlotCommand;
 import net.eltown.quadplots.components.data.Plot;
 import net.eltown.quadplots.components.language.Language;
 import net.eltown.quadplots.components.tasks.ChangeBorderTask;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,8 +34,10 @@ public class AutoCommand extends PlotCommand {
                 final Plot plot = this.getPlugin().getLocationAPI().findFreePlot(0, 0);
                 player.sendMessage(Language.get("plot.claim"));
                 plot.claim(player.getName());
-                player.teleport(this.getPlugin().getLocationAPI().getPositionByXZ(plot.getX(), Plot.Settings.getHeight() + 2, plot.getZ()).toLocation(player.getWorld()));
-                new ChangeBorderTask(plot, Plot.Settings.getClaimed(), player.getWorld(), true).execute();
+                Bukkit.getScheduler().scheduleSyncDelayedTask(this.getPlugin(), () -> {
+                    player.teleport(this.getPlugin().getLocationAPI().getPositionByXZ(plot.getX(), Plot.Settings.getHeight() + 2, plot.getZ()).toLocation(player.getWorld()));
+                    new ChangeBorderTask(plot, Plot.Settings.getClaimed(), player.getWorld(), true).execute();
+                });
 
             }
         });
