@@ -2,9 +2,12 @@ package net.eltown.quadplots.components.listener;
 
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import net.eltown.quadplots.QuadPlots;
+import net.eltown.quadplots.components.data.Flags;
 import net.eltown.quadplots.components.data.Plot;
 import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -116,6 +119,15 @@ public record PlayerListener(QuadPlots plugin) implements Listener {
             plot = this.plugin.getLocationAPI().getPlotByPosition(event.getClickedBlock().getLocation().toVector());
 
         if (plot != null) {
+
+            final Material block = event.getClickedBlock().getBlockData().getMaterial();
+
+            if (block.name().contains("_BUTTON") && plot.hasFlag(Flags.USE_BUTTONS)) return;
+            if (block == Material.LEVER && plot.hasFlag(Flags.USE_LEVERS)) return;
+            if (block.name().contains("_PRESSURE_PLATE") && plot.hasFlag(Flags.USE_PRESSURE_PLATES)) return;
+            if (block.name().contains("_DOOR") && plot.hasFlag(Flags.USE_DOORS)) return;
+            if (block.name().contains("_TRAPDOOR") && plot.hasFlag(Flags.USE_TRAPDOORS)) return;
+
             if (!plot.canBuild(event.getPlayer().getName())) event.setCancelled(true);
         } else event.setCancelled(true);
     }

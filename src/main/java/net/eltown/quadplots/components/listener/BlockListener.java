@@ -2,6 +2,7 @@ package net.eltown.quadplots.components.listener;
 
 import com.destroystokyo.paper.event.block.TNTPrimeEvent;
 import net.eltown.quadplots.QuadPlots;
+import net.eltown.quadplots.components.data.Flags;
 import net.eltown.quadplots.components.data.Plot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,7 +42,7 @@ public record BlockListener(QuadPlots plugin) implements Listener {
         // Liquids
         if (event.getBlock().isLiquid()) {
             final Plot to = this.plugin.getLocationAPI().getPlotByPosition(event.getToBlock().getLocation().toVector());
-            if (to == null) event.setCancelled(true);
+            if (to == null || to.hasFlag(Flags.DISABLE_LIQUIDS)) event.setCancelled(true);
         }
     }
 

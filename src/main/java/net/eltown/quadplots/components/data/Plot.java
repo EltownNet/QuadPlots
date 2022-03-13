@@ -190,12 +190,24 @@ public class Plot {
         this.flags.add(str);
     }
 
+    public void addFlag(final Flags flag) {
+        this.addFlag(flag.name());
+    }
+
     public void removeFlag(final String str) {
         this.flags.removeIf(flag -> flag.startsWith(str) || flag.equalsIgnoreCase(str));
     }
 
+    public void removeFlag(final Flags flag) {
+        this.removeFlag(flag.name());
+    }
+
     public boolean hasFlag(final String key) {
         return this.flags.stream().anyMatch(s -> s.startsWith(key));
+    }
+
+    public boolean hasFlag(final Flags flag) {
+        return this.hasFlag(flag.name());
     }
 
     public boolean isOwner(final String player) {
